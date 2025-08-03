@@ -1,8 +1,11 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Camera, ShoppingCart, Heart, Shield, Star, X, Plus, Minus, ArrowLeft } from 'lucide-react';
 import './App.css';
 
 import { useRef, useEffect } from 'react';
+
+// Configuración de la API
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
 
 // Tipos de datos
 interface Product {
@@ -119,7 +122,7 @@ const enviarImagenAlBackend = async (blob: Blob) => {
   formData.append("file", blob, "foto.jpg");
 
   try {
-    const response = await fetch("http://localhost:8000/imagen/predecir", {
+    const response = await fetch(`${API_URL}/imagen/predecir`, {
       method: "POST",
       body: formData
     });
@@ -153,7 +156,7 @@ const enviarImagenAlBackend = async (blob: Blob) => {
 
 const obtenerRecomendaciones = async (etiquetas: string[]) => {
   try {
-    const response = await fetch("http://localhost:8000/productos/recomendar", {
+    const response = await fetch(`${API_URL}/productos/recomendar`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -331,14 +334,14 @@ const captureImage = async () => {
     </div>
   );
 
-  const recomendacionesGenerales = [
-  "Lava tu rostro dos veces al día con un limpiador suave.",
-  "Usa protector solar todos los días, incluso en interiores.",
-  "Evita tocarte la cara con las manos sucias.",
-  "Mantén una dieta equilibrada y bebe suficiente agua.",
-  "No olvides hidratar tu piel según tu tipo de piel.",
-  "Evita productos abrasivos y consulta a un dermatólogo si tienes dudas.",
-];
+  // const recomendacionesGenerales = [
+  // "Lava tu rostro dos veces al día con un limpiador suave.",
+  // "Usa protector solar todos los días, incluso en interiores.",
+  // "Evita tocarte la cara con las manos sucias.",
+  // "Mantén una dieta equilibrada y bebe suficiente agua.",
+  // "No olvides hidratar tu piel según tu tipo de piel.",
+  // "Evita productos abrasivos y consulta a un dermatólogo si tienes dudas.",
+  // ];
 
 // Pantalla de Diagnóstico
 const DiagnosisScreen = () => (
@@ -575,7 +578,7 @@ const DiagnosisScreen = () => (
             <div className="products-grid">
               {productosRecomendados.map(product => (
                 <div key={product.id} className="product-card">
-                  <img src={`http://localhost:8000/static/images/${product.imagen}`} alt={product.nombre} />
+                  <img src={`${API_URL}/static/images/${product.imagen}`} alt={product.nombre} />
                   <div className="product-info">
                     <h5>{product.nombre}</h5>
                     <p className="product-description">{product.descripcion}</p>
@@ -641,7 +644,7 @@ const DiagnosisScreen = () => (
               <div className="cart-list">
                 {cart.map(item => (
                   <div key={item.id} className="cart-item">
-                    <img src={`http://localhost:8000/static/images/${item.imagen}`} alt={item.nombre} />
+                    <img src={`${API_URL}/static/images/${item.imagen}`} alt={item.nombre} />
                     <div className="item-details">
                       <h4>{item.nombre}</h4>
                       <p className="item-category">{item.etiquetas.join(", ")}</p>

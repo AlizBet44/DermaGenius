@@ -14,6 +14,9 @@ app = FastAPI(
 
 origins = [
     "http://localhost:5173",  # frontend en desarrollo
+    "http://localhost:3000",  # frontend alternativo
+    "https://*.vercel.app",   # dominios de Vercel
+    "https://your-project-name.vercel.app",  # reemplaza con tu dominio específico
 ]
 
 app.add_middleware(
@@ -35,4 +38,5 @@ app.include_router(product_routes.router)
 
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+    port = int(os.environ.get("PORT", 8000))
+    uvicorn.run(app, host="0.0.0.0", port=port)
