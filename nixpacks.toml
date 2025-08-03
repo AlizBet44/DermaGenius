@@ -1,0 +1,11 @@
+{
+  "name": "dermagenius-backend",
+  "build": {
+    "commands": [
+      "pip install -r requirements.txt"
+    ]
+  },
+  "start": {
+    "cmd": "uvicorn back.main:app --host 0.0.0.0 --port $PORT"
+  }
+}
